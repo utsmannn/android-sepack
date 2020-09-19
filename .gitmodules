@@ -1,0 +1,9 @@
+[submodule "templare-basic"]
+	path = templare-basic
+	url = https://github.com/utsmannn/sepack-basic.git
+[submodule "template-glide"]
+	path = template-glide
+	url = https://github.com/utsmannn/sepack-basic-glide.git
+[submodule "template-recyclerview"]
+	path = template-recyclerview
+	url = https://github.com/utsmannn/sepack-basic-recyclerview.git

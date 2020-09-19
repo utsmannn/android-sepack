@@ -14,8 +14,55 @@
   <h3 align="center">Tool for generate android project base on MVVM</h3>
 </p>
 
+<p align="center">
+  <img src="https://i.ibb.co/6gSy73S/ezgif-com-video-to-gif-2.gif"/>
+</p>
 
-## Under Construction
+---
+
+### Setup
+#### Download
+```
+wget -P android-sepack https://raw.githubusercontent.com/utsmannn/android-sepack/master/sepack
+```
+
+#### Make executable
+```
+cd android-sepack
+chmod +x ./sepack
+```
+
+#### Add to path zsh (Mac os)
+Open .zprofile with terminal
+```
+vim .zprofile
+```
+
+And type (press i for editable vim)
+```
+export PATH=~/android-sepack:$PATH
+```
+(for quit vim, press esc and type :wq)
+Restart terminal
+
+### Usage
+For start create project
+```
+sepack init
+```
+
+### Repo Template
+- [Basic](https://github.com/utsmannn/sepack-basic)
+- [Basic With Glide](https://github.com/utsmannn/sepack-basic-glide)
+- [Basic RecyclerView](https://github.com/utsmannn/sepack-basic-recyclerview)
+- and others will available..
+
+### Main Tech Stack
+- MVVM
+- Result case pattern
+- Coroutine flow
+
+---
 
 ```
 Copyright 2020 Muhammad Utsman
