@@ -81,22 +81,22 @@ func userInput() {
 	switch result {
 	case TEMPLATE_1:
 		var repo = "https://github.com/utsmannn/sepack-basic"
-		setupClone(appName, repo, packageName)
+		setupClone(appName, repo, packageName, "Sepack-mvvm")
 	case TEMPLATE_2:
 		var repo = "https://github.com/utsmannn/sepack-basic-glide"
-		setupClone(appName, repo, packageName)
+		setupClone(appName, repo, packageName, "sepack mvvm glide")
 	case TEMPLATE_3:
 		var repo = "https://github.com/utsmannn/sepack-basic-recyclerview"
-		setupClone(appName, repo, packageName)
+		setupClone(appName, repo, packageName, "sepack mvvm glide")
 	}
 }
 
-func setupClone(appName string, repo string, packageName string) {
+func setupClone(appName string, repo string, packageName string, oldName string) {
 	fmt.Println("Cloning repo...")
 	cloneRepo(appName, repo)
 	removeUnusedDir(appName)
 	fmt.Println("Configuring...")
-	readFile(appName, packageName)
+	readFile(appName, packageName, oldName)
 	fmt.Println("Removing old dir...")
 	removeOldDir(appName, packageName)
 
@@ -207,7 +207,7 @@ func settingUpName(command string, dot bool) (string, error) {
 	return result, err
 }
 
-func readFile(appName string, packageName string) {
+func readFile(appName string, packageName string, oldName string) {
 	appNameSlash := strings.Replace(appName, " ", "-", -1)
 	err := filepath.Walk(filepath.Base(appNameSlash),
 		func(path string, info os.FileInfo, err error) error {
@@ -224,7 +224,7 @@ func readFile(appName string, packageName string) {
 				// dir
 			case mode.IsRegular():
 				if path != "main.go" {
-					replace(path, appName, packageName)
+					replace(path, appName, packageName, oldName)
 					newPath := pathFixing(path, packageName)
 
 					pathMkdir := strings.Replace(newPath, info.Name(), "", -1)
@@ -254,14 +254,14 @@ func pathFixing(path string, packageName string) string {
 	return newPath
 }
 
-func replace(path string, appName string, packageName string) {
+func replace(path string, appName string, packageName string, oldName string) {
 	input, err := ioutil.ReadFile(path)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	input = bytes.Replace(input, []byte("com.utsman.sepack"), []byte(packageName), -1)
-	input = bytes.Replace(input, []byte("Sepack-mvvm"), []byte(appName), -1)
+	input = bytes.Replace(input, []byte(oldName), []byte(appName), -1)
 	err = ioutil.WriteFile(path, input, 0666)
 	if err != nil {
 		log.Fatal(err)
