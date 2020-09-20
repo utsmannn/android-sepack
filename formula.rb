@@ -7,7 +7,7 @@ class Sepack < Formula
 	version "0.1.1"
 
 	def install
-		bin.install "android-sepack"
+		bin.install "sepack"
 	end
 
 	test do
