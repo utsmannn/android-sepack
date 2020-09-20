@@ -21,6 +21,12 @@
 ---
 
 ### Setup
+```
+brew tap utsmannn/android-sepack
+brew install sepack
+```
+
+Or download file sepack
 #### Download
 ```
 wget -P android-sepack https://raw.githubusercontent.com/utsmannn/android-sepack/master/sepack
