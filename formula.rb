@@ -2,7 +2,7 @@ class Sepack < Formula
 	desc "Command-line interface for build android project base on MVVM"
 	homepage "https://github.com/utsmannn/android-sepack"
 	url "https://github.com/utsmannn/android-sepack/archive/0.1.2.tar.gz"
-	sha256 "816cf4e38aa97935fbb9efdc0c36e516b40f677cf3f329acab355cf9286fe6f4"
+	sha256 "7b4e3505e1e6e5e6d882527c32e4ec4db3b2ff7a37102f49599c79509d2b2a98"
 	head "https://github.com/utsmannn/android-sepack.git"
 	version "0.1.2"
 

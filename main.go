@@ -271,7 +271,7 @@ func replace(path string, appName string, packageName string, oldName string) {
 func allowedChar(s string, dot bool) bool {
 	allowed := "abcdefghijklmnopqrstuvwxyz "
 	if dot {
-		allowed = "abcdefghijklmnopqrstuvwxyz. "
+		allowed = "abcdefghijklmnopqrstuvwxyz."
 	}
 
 	for _, char := range s {
