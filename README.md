@@ -21,13 +21,22 @@
 ---
 
 ### Setup
+#### Mac os
 ```
 brew tap utsmannn/android-sepack
 brew install sepack
 ```
 
-Or download file sepack
-#### Download
+#### windows
+Download `sepack.exe` or `sepack64.exe` and bring file into folder project android (or add path variable for sepack file)
+
+For select template use
+```
+j for down
+k for up
+```
+
+#### Manual
 ```
 wget -P android-sepack https://raw.githubusercontent.com/utsmannn/android-sepack/master/sepack
 ```
@@ -49,6 +58,7 @@ And type (press i for editable vim)
 export PATH=~/android-sepack:$PATH
 ```
 (for quit vim, press esc and type :wq)
+
 Restart terminal
 
 ### Usage
