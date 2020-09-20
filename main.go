@@ -25,7 +25,7 @@ const (
 func main() {
 	app := &cli.App{
 		Name:   "init",
-		Version: "0.1.1",
+		Version: "0.1.2",
 		Description: "Build android MVVM project with templates",
 		Usage:  "Input application name, package name and select template",
 		Action: actionBuf,
