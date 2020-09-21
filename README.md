@@ -28,12 +28,8 @@ brew install sepack
 ```
 
 #### Windows
-Download raw of [`sepack.exe`](https://github.com/utsmannn/android-sepack/blob/master/sepack.exe) or [`sepack64.exe`](https://github.com/utsmannn/android-sepack/blob/master/sepack64.exe) and bring file into folder project android (or add path variable for sepack file)
-
-For select template use
 ```
-j for down
-k for up
+Under maintenance..
 ```
 
 #### Manual
