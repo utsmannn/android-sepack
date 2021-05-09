@@ -39,9 +39,11 @@ function replacing(folder, repoConfig) {
     var prefixAndroidTest = "app/src/androidTest/java/"
     var prefixUnitTest = "app/src/test/java/"
 
-    moving(prefixMain, repoConfig)
-    moving(prefixAndroidTest, repoConfig)
-    moving(prefixUnitTest, repoConfig)
+    var prefixs = [prefixMain, prefixAndroidTest, prefixUnitTest]
+    prefixs.forEach(prefix => {
+        moving(prefix, repoConfig)
+    })
+
     fixer(currentPackageName, destinationPackageName)
 }
 
@@ -56,7 +58,7 @@ function moving(prefixDir, repoConfig) {
 
 function fixer(current, destination) {
     var files = shelljs.find(".").filter(file => {
-        return file.match(/\.kt$/)
+        return file.match(/\.kt$/) || file.match(/\/build.gradle$/)
     })
     files.forEach(file => {
         shelljs.sed("-i", current, destination, file)

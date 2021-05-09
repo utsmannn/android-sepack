@@ -1,4 +1,5 @@
 import inquirer from "inquirer";
+import { startClone } from "./git-clone.js";
 import { RepoConfig } from "./repo-data.js";
 
 export function startPromter(sepackConfig) {
@@ -12,7 +13,6 @@ export function startPromter(sepackConfig) {
     ])
     .then((answer) => {
       var repoConfig = new RepoConfig();
-      repoConfig.repoUrl = sepackConfig.repoUrl;
       repoConfig.projectName = answer.project_name;
       setupPackageName(repoConfig, sepackConfig);
     });
@@ -59,7 +59,8 @@ function setupTemplate(repoConfig, sepackConfig) {
       var selectedTemplate = templates.find(item => {
         return item.name == selected
       })
-    
       console.log(selectedTemplate.url);
+      repoConfig.repoUrl = selectedTemplate.url
+      startClone(repoConfig)
     });
 }

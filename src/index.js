@@ -3,7 +3,6 @@
 import figlet from "figlet";
 import shelljs from "shelljs";
 import chalk from "chalk";
-import { startClone } from "./git-clone.js";
 import { startPromter } from "./promter.js";
 import axios from "axios";
 import { SepackConfig } from "./repo-data.js";
@@ -31,6 +30,3 @@ axios
   .catch(error => {
     console.error(error)
   })
-
-
-//startPromter();
