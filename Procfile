@@ -1,1 +1,1 @@
-web:    java -jar sepack-server/build/libs/sepack-server-1.0.0-all.jar --server-port=8081
+web:    java -jar sepack-server/build/libs/sepack-server-1.0.0-all.jar
