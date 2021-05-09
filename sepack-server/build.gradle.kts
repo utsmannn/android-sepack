@@ -35,7 +35,7 @@ tasks.withType<Test> {
 	useJUnitPlatform()
 }
 
-tasks.withType<Jar> {
+tasks.withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar> {
 	manifest {
 		attributes(mapOf(
 			"Main-Class" to "com.utsman.sepackserver.SepackServerApplicationKt"
