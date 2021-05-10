@@ -14,9 +14,10 @@ export class SepackConfig {
 }
 
 export class Template {
-    constructor(name, url) {
+    constructor(name, url, dependencies) {
         this.name = name;
         this.url = url;
+        this.dependencies = dependencies;
     }
 }
 

@@ -1,7 +1,6 @@
 import shelljs from "shelljs";
 import chalk from "chalk";
 import clui from "clui";
-import fs from "fs";
 
 export function startClone(repoConfig) {
     var folderProject = repoConfig.projectName.split(" ").join("-");
@@ -9,10 +8,10 @@ export function startClone(repoConfig) {
 
     var Spinner = clui.Spinner;
     var spinnerBar = new Spinner();
-    spinnerBar.message(" cloning...");
+    spinnerBar.message("Building project...");
     spinnerBar.start();
     shelljs.exec(command, { silent: true, async: false }, function (code, stdout, stderr) {
-        spinnerBar.message("success");
+        spinnerBar.message("Success");
         spinnerBar.stop();
 
         var isError = stderr.includes('fatal');
@@ -21,8 +20,8 @@ export function startClone(repoConfig) {
                 chalk.red(stderr)
             );
         } else {
-            console.log('Success..');
             replacing(folderProject, repoConfig)
+            console.log(chalk.green("Success!"));
         }
     });
 }
