@@ -19,7 +19,6 @@ export function startClone(rConfig, tConfig, listener) {
 
   var command = `git clone -b ${template.branch} ${repoConfig.repoUrl} ${folderProject}`
 
-  console.log(command)
   var Spinner = clui.Spinner;
   var spinnerBar = new Spinner();
   spinnerBar.message("Building project...");

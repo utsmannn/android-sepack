@@ -32,7 +32,7 @@ console.log(
   )
 );
 
-var version = "0.2.2"
+var version = "0.2.3"
 
 console.log(chalk.green("-------------------------------"));
 console.log(chalk.green(`v${version}`) + " | " + chalk.blue("by github.com/utsmannn"));
