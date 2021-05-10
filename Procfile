@@ -1,1 +1,0 @@
-web:    java -jar sepack-server/build/libs/sepack-server-1.0.0-all.jar

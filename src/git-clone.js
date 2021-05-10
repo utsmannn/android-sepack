@@ -1,65 +1,133 @@
 import shelljs from "shelljs";
 import chalk from "chalk";
 import clui from "clui";
+import { RepoConfig, Template } from "./repo-data.js";
+import fs from "fs";
 
-export function startClone(repoConfig) {
-    var folderProject = repoConfig.projectName.split(" ").join("-");
-    var command = "git clone " + repoConfig.repoUrl + " " + folderProject
+var repoConfig = new RepoConfig();
+var template = new Template();
 
-    var Spinner = clui.Spinner;
-    var spinnerBar = new Spinner();
-    spinnerBar.message("Building project...");
-    spinnerBar.start();
-    shelljs.exec(command, { silent: true, async: false }, function (code, stdout, stderr) {
+export function startClone(rConfig, tConfig, listener) {
+  repoConfig = rConfig;
+  template = tConfig;
+
+  var folderProject = repoConfig.projectName
+    .trim()
+    .split(" ")
+    .join("-")
+    .toLowerCase();
+
+  var command = "git clone " + repoConfig.repoUrl + " " + folderProject;
+
+  var Spinner = clui.Spinner;
+  var spinnerBar = new Spinner();
+  spinnerBar.message("Building project...");
+  spinnerBar.start();
+  shelljs.exec(
+    command,
+    { silent: true, async: false },
+    function (code, stdout, stderr) {
+      spinnerBar.stop();
+      var isError = stderr.includes("fatal");
+      if (isError) {
+        console.log(chalk.red(stderr));
+        listener(false);
+      } else {
+        replacing(folderProject, repoConfig);
+
         spinnerBar.message("Success");
-        spinnerBar.stop();
+        console.log(chalk.green("Success!"));
+        listener(true);
+      }
+    }
+  );
+}
 
-        var isError = stderr.includes('fatal');
-        if (isError) {
-            console.log(
-                chalk.red(stderr)
-            );
-        } else {
-            replacing(folderProject, repoConfig)
-            console.log(chalk.green("Success!"));
-        }
+function replacing(folder) {
+  var currentPackageName = "com.utsman.sepack";
+  var destinationPackageName = repoConfig.packageName;
+  shelljs.cd(folder);
+
+  var prefixMain = "app/src/main/java/";
+  var prefixAndroidTest = "app/src/androidTest/java/";
+  var prefixUnitTest = "app/src/test/java/";
+
+  moving(prefixMain);
+  moving(prefixAndroidTest);
+  moving(prefixUnitTest);
+
+  fixer(currentPackageName, destinationPackageName);
+  addExtrasDependencies();
+  changeNameProject();
+}
+
+function moving(prefixDir) {
+  var currentPackageName = "com.utsman.sepack";
+  var tempPackageName = "com.utsman";
+  var destinationPackageName = repoConfig.packageName;
+
+  var currentDir = prefixDir + currentPackageName.split(".").join("/");
+  var temp = prefixDir + tempPackageName.split(".").join("/");
+  var destinationDir = prefixDir + destinationPackageName.split(".").join("/");
+
+  var isExsist = fs.existsSync(currentDir);
+  var isContainsCom = !destinationPackageName.includes("com");
+  if (isExsist) {
+    shelljs.mkdir("-p", destinationDir);
+    shelljs.mv("-f", currentDir + "/*", destinationDir);
+    shelljs.rm("-rf", temp);
+    if (isContainsCom) {
+      shelljs.rm("-rf", prefixDir + "/com");
+    }
+  }
+
+  var unusedFiles = [".DS_Store", ".idea", ".git", ".gitignore", ".gradle"];
+    unusedFiles.forEach((item) => {
+      shelljs.rm("-rf", item);
     });
 }
 
-function replacing(folder, repoConfig) {
-    var currentPackageName = "com.utsman.sepack"
-    var destinationPackageName = repoConfig.packageName
-
-    var unusedFiles = [".DS_Store", ".idea", ".git", ".gitignore"]
-    shelljs.cd(folder)
-    shelljs.rm('-rf', unusedFiles)
-
-    var prefixMain = "app/src/main/java/"
-    var prefixAndroidTest = "app/src/androidTest/java/"
-    var prefixUnitTest = "app/src/test/java/"
-
-    var prefixs = [prefixMain, prefixAndroidTest, prefixUnitTest]
-    prefixs.forEach(prefix => {
-        moving(prefix, repoConfig)
-    })
-
-    fixer(currentPackageName, destinationPackageName)
-}
-
-function moving(prefixDir, repoConfig) {
-    var currentPackageName = "com.utsman.sepack"
-    var destinationPackageName = repoConfig.packageName
-
-    var currentDir = prefixDir +  currentPackageName.split(".").join("/")
-    var destinationDir = prefixDir + destinationPackageName.split(".").join("/")
-    shelljs.mv("-f", currentDir, destinationDir)
-}
-
 function fixer(current, destination) {
-    var files = shelljs.find(".").filter(file => {
-        return file.match(/\.kt$/) || file.match(/\/build.gradle$/)
-    })
-    files.forEach(file => {
-        shelljs.sed("-i", current, destination, file)
-    })
+  var files = shelljs.find(".").filter((file) => {
+    return file.match(/\.kt$/) || file.match(/\/build.gradle$/);
+  });
+  files.forEach((file) => {
+    shelljs.sed("-i", current, destination, file);
+  });
+}
+
+function addExtrasDependencies() {
+  var dependencies = template.dependencies;
+  var current = `// sepack-external-dependencies`;
+  var destination = dependencies.map((item) => {
+    return `implementation '${item}'`;
+  });
+
+  var destinationString = `     ${destination}`.split(",").join("\n     ");
+
+  var files = shelljs.find(".").filter((file) => {
+    return file.match(/\/external.gradle$/);
+  });
+
+  if (destination.length != 0) {
+    files.forEach((file) => {
+      shelljs.sed("-i", current, destinationString, file);
+    });
+  }
+}
+
+function changeNameProject() {
+  var current = `sepack-name-project`;
+  var destination = repoConfig.projectName;
+
+  var files = shelljs.find(".").filter((file) => {
+    return file.match(/\/strings.xml$/);
+  });
+
+  files.forEach((file) => {
+    shelljs.sed("-i", current, destination, file);
+  });
+
+  shelljs.sed("-i", current, destination, "settings.gradle")
+  
 }

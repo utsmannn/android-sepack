@@ -4,6 +4,7 @@ import { startClone } from "./git-clone.js";
 import { RepoConfig, Template } from "./repo-data.js";
 import clui from "clui";
 import chalk from "chalk";
+import shelljs from "shelljs";
 
 var repoConfig = new RepoConfig();
 var dependenciesList = [];
@@ -16,10 +17,21 @@ export function startPromter(sepackConfig) {
         name: "project_name",
         type: "input",
         message: "Input your your Project name?",
+        validate: function (value) {
+          if (allowed(value, false)) {
+            return true;
+          } else {
+            console.log(
+              chalk.red("\nError: Project name character forbidden!")
+            );
+            return "Please enter your correct package name";
+          }
+        },
       },
     ])
     .then((answer) => {
-      repoConfig.projectName = answer.project_name;
+      var projectName = answer.project_name;
+      repoConfig.projectName = projectName;
       setupPackageName(sepackConfig);
     });
 }
@@ -32,10 +44,15 @@ function setupPackageName(sepackConfig) {
         type: "input",
         message: "What is your Package name?",
         validate: function (value) {
-          if (allowed(value)) {
+          if (allowed(value, true)) {
             return true;
           } else {
-            return "Please enter your corrent package name";
+            console.log(
+              chalk.red(
+                "\nError: Package name not allowed with dot in start or end!"
+              )
+            );
+            return "Please enter your correct package name";
           }
         },
       },
@@ -67,6 +84,7 @@ function setupTemplate(sepackConfig) {
       selectedTemplate = templates.find((item) => {
         return item.name == selected;
       });
+      repoConfig.repoUrl = selectedTemplate.url;
       addDepsConfirm("Add extra dependencies?");
     });
 }
@@ -87,7 +105,6 @@ function addDepsConfirm(message) {
       } else {
         selectedTemplate.dependencies = dependenciesList;
         confirmBuilder();
-        //console.log("ready" + dependenciesList + "\n" + selectedTemplate.name + "\n" + repoConfig.projectName + "\n" + selectedTemplate.dependencies);
       }
     })
     .catch((error) => {
@@ -101,7 +118,15 @@ function selectDependencies() {
       {
         name: "dependencies_search",
         type: "input",
-        message: "Search dependencies",
+        message: "Search dependencies:",
+        validate: function (value) {
+          if (value.split("").length === 0) {
+            console.log(chalk.red("\nError: Cannot input empty character"));
+            return false;
+          } else {
+            return true;
+          }
+        },
       },
     ])
     .then((answer) => {
@@ -117,7 +142,7 @@ function depsApiSearch(search) {
   spinnerBar.start();
 
   axios
-    .get("http://localhost:8080/api/dependencies?search=" + search)
+    .get("https://sepacket.herokuapp.com/api/dependencies?search=" + search)
     .then((response) => {
       spinnerBar.stop();
       var data = response.data;
@@ -129,7 +154,9 @@ function depsApiSearch(search) {
       });
 
       if (dataMap.length === 0) {
-        console.log("Dependencies not found in maven central");
+        console.log(
+          chalk.yellow("Warning: Dependencies not found in maven central")
+        );
         selectDependencies();
       } else {
         depsChoise(dataMap);
@@ -137,7 +164,7 @@ function depsApiSearch(search) {
     })
     .catch((error) => {
       spinnerBar.stop();
-      console.log(chalk.red("Failed!"));
+      console.log(chalk.red("Error: Failed!"));
     });
 }
 
@@ -149,10 +176,18 @@ function depsChoise(dependencies) {
         type: "checkbox",
         message: "Select dependencies",
         choices: dependencies,
+        loop: false,
       },
     ])
     .then((answer) => {
       var depsSelect = answer.dependencies;
+      if (depsSelect.length === 0) {
+        console.log(
+          chalk.yellow(
+            "Warning: You not select any dependencies, use [space] for select"
+          )
+        );
+      }
       depsSelect.forEach((item) => {
         dependenciesList.push(item);
       });
@@ -201,20 +236,66 @@ function confirmBuilder() {
     ])
     .then((answer) => {
       var confirm = answer.confirm;
-      console.log(confirm);
+      if (confirm) {
+        startClone(repoConfig, selectedTemplate, (success) => {
+          if (success) {
+            askOpenStudio();
+          }
+        });
+      }
     })
     .catch((error) => {
       console.log(error);
     });
 }
 
-function allowed(string) {
-  var allowed = "abcdefghijklmnopqrstuvwxyz.";
-  var filtering = string.split("").map((char) => {
-    var included = allowed.includes(char)
-    return included
+function allowed(string, dot) {
+  var allowed;
+  if (dot) {
+    allowed = "abcdefghijklmnopqrstuvwxyz.";
+  } else {
+    allowed = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz ";
+  }
+  var stringList = string.split("");
+  var filtering = stringList.map((char) => {
+    var included = allowed.includes(char);
+    return included;
   });
 
+  var dotNotAllowed =
+    stringList[0] === "." || stringList[stringList.length - 1] === ".";
   var valid = !filtering.includes(false);
-  return valid;
+  return valid && !dotNotAllowed;
+}
+
+function askOpenStudio() {
+  inquirer
+    .prompt([
+      {
+        name: "open",
+        type: "confirm",
+        message: "Open Android Studio?",
+      },
+    ])
+    .then((answer) => {
+      var confirm = answer.open;
+      if (confirm) {
+        openStudio();
+      }
+    });
+}
+
+function openStudio() {
+  var os = process.platform;
+  var macCommand =
+    "open -a /Applications/Android\\ Studio.app .";
+
+  switch (os) {
+    case "darwin":
+      shelljs.exec(macCommand);
+      break;
+    default:
+      console.log("Your os not able to open project");
+      break;
+  }
 }

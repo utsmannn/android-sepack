@@ -7,9 +7,8 @@ export class RepoConfig {
 }
 
 export class SepackConfig {
-    constructor([template], [dependencies]) {
+    constructor([template]) {
         this.template = template;
-        this.dependencies = dependencies;
     }
 }
 

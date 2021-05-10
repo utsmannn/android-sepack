@@ -10,6 +10,7 @@ import clui from "clui";
 
 shelljs.exec("clear");
 console.log(chalk.green(figlet.textSync("sepack - android", "Colossal")));
+console.log(chalk.green("-----"));
 console.log(chalk.blue("by github.com/utsmannn"));
 console.log(chalk.green("-----"));
 
@@ -23,7 +24,7 @@ spinnerBar.message(" ping to server...");
 spinnerBar.start();
 
 axios
-  .get("http://localhost:8080/api/version")
+  .get("https://sepacket.herokuapp.com/api/version")
   .then((response) => {
     spinnerBar.stop();
     console.log(chalk.green("server connected!"))
