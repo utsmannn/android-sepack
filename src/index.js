@@ -9,7 +9,28 @@ import { SepackConfig } from "./repo-data.js";
 import clui from "clui";
 
 shelljs.exec("clear");
-console.log(chalk.green(figlet.textSync("sepack - android", "Colossal")));
+console.log(
+  chalk.white(
+    figlet.textSync("sepack", {
+      font: "Colossal",
+      horizontalLayout: "default",
+      verticalLayout: "default",
+      width: 80,
+      whitespaceBreak: true,
+    })
+  )
+);
+console.log(
+  chalk.green(
+    figlet.textSync("android", {
+      font: "Colossal",
+      horizontalLayout: "default",
+      verticalLayout: "default",
+      width: 80,
+      whitespaceBreak: true,
+    })
+  )
+);
 console.log(chalk.green("-----"));
 console.log(chalk.blue("by github.com/utsmannn"));
 console.log(chalk.green("-----"));
@@ -27,7 +48,7 @@ axios
   .get("https://sepacket.herokuapp.com/api/version")
   .then((response) => {
     spinnerBar.stop();
-    console.log(chalk.green("server connected!"))
+    console.log(chalk.green("server connected!"));
     var templates = response.data.templates;
     var dependencies = response.data.dependencies;
 
