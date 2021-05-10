@@ -7,7 +7,6 @@ import { startPromter } from "./promter.js";
 import axios from "axios";
 import { SepackConfig } from "./repo-data.js";
 import clui from "clui";
-import fs from "fs";
 
 shelljs.exec("clear");
 console.log(
@@ -33,9 +32,7 @@ console.log(
   )
 );
 
-
-var json = JSON.parse(fs.readFileSync('./package.json', 'utf-8'))
-var version = json.version
+var version = "0.2.2"
 
 console.log(chalk.green("-------------------------------"));
 console.log(chalk.green(`v${version}`) + " | " + chalk.blue("by github.com/utsmannn"));
