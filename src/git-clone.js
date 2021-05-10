@@ -17,8 +17,9 @@ export function startClone(rConfig, tConfig, listener) {
     .join("-")
     .toLowerCase();
 
-  var command = "git clone " + repoConfig.repoUrl + " " + folderProject;
+  var command = `git clone -b ${template.branch} ${repoConfig.repoUrl} ${folderProject}`
 
+  console.log(command)
   var Spinner = clui.Spinner;
   var spinnerBar = new Spinner();
   spinnerBar.message("Building project...");
@@ -44,7 +45,7 @@ export function startClone(rConfig, tConfig, listener) {
 }
 
 function replacing(folder) {
-  var currentPackageName = "com.utsman.sepack";
+  var currentPackageName = "com.sepack.basic";
   var destinationPackageName = repoConfig.packageName;
   shelljs.cd(folder);
 
@@ -62,8 +63,8 @@ function replacing(folder) {
 }
 
 function moving(prefixDir) {
-  var currentPackageName = "com.utsman.sepack";
-  var tempPackageName = "com.utsman";
+  var currentPackageName = "com.sepack.basic";
+  var tempPackageName = "com.sepack";
   var destinationPackageName = repoConfig.packageName;
 
   var currentDir = prefixDir + currentPackageName.split(".").join("/");
@@ -89,7 +90,7 @@ function moving(prefixDir) {
 
 function fixer(current, destination) {
   var files = shelljs.find(".").filter((file) => {
-    return file.match(/\.kt$/) || file.match(/\/build.gradle$/);
+    return file.match(/\.kt$/) || file.match(/\/build.gradle$/) || file.match(/\.xml$/);
   });
   files.forEach((file) => {
     shelljs.sed("-i", current, destination, file);

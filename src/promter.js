@@ -142,7 +142,7 @@ function depsApiSearch(search) {
   spinnerBar.start();
 
   axios
-    .get("https://sepacket.herokuapp.com/api/dependencies?search=" + search)
+    .get("http://localhost:8080/api/dependencies?search=" + search)
     .then((response) => {
       spinnerBar.stop();
       var data = response.data;

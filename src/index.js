@@ -7,6 +7,7 @@ import { startPromter } from "./promter.js";
 import axios from "axios";
 import { SepackConfig } from "./repo-data.js";
 import clui from "clui";
+import fs from "fs";
 
 shelljs.exec("clear");
 console.log(
@@ -27,13 +28,18 @@ console.log(
       horizontalLayout: "default",
       verticalLayout: "default",
       width: 80,
-      whitespaceBreak: true,
+      whitespaceBreak: false,
     })
   )
 );
-console.log(chalk.green("-----"));
-console.log(chalk.blue("by github.com/utsmannn"));
-console.log(chalk.green("-----"));
+
+
+var json = JSON.parse(fs.readFileSync('./package.json', 'utf-8'))
+var version = json.version
+
+console.log(chalk.green("-------------------------------"));
+console.log(chalk.green(`v${version}`) + " | " + chalk.blue("by github.com/utsmannn"));
+console.log(chalk.green("-------------------------------"));
 
 if (!shelljs.which("git")) {
   console.log("git not installed on your computer!");
@@ -45,7 +51,7 @@ spinnerBar.message(" ping to server...");
 spinnerBar.start();
 
 axios
-  .get("https://sepacket.herokuapp.com/api/version")
+  .get("http://localhost:8080/api/version")
   .then((response) => {
     spinnerBar.stop();
     console.log(chalk.green("server connected!"));
