@@ -10,7 +10,17 @@
   "bin": {
     "android-sepack": "src/index.js"
   },
-  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/utsmannn/android-sepack.git"
+  },
+  "keywords": [
+    "android",
+    "builder",
+    "gradlew",
+    "init"
+  ],
+  "author": "Muhammad Utsman",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.21.1",
