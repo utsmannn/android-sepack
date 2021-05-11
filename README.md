@@ -9,7 +9,7 @@
 <p align="center">
   <a href="https://www.npmjs.com/package/sepack"><img alt="Version" src="https://img.shields.io/npm/v/sepack"></a>
   <a href="LICENSE"><img alt="License" src="https://img.shields.io/badge/License-Apache%202.0-blue.svg"></a>
-  <a href="https://github.com/utsmannn/sepack/pulls"><img alt="Pull request" src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat"></a>
+  <a href="https://github.com/utsmannn/android-sepack/pulls"><img alt="Pull request" src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat"></a>
   <a href="https://twitter.com/utsmannn"><img alt="Twitter" src="https://img.shields.io/twitter/follow/utsmannn"></a>
   <a href="https://github.com/utsmannn"><img alt="Github" src="https://img.shields.io/github/followers/utsmannn?label=follow&style=social"></a>
   <h3 align="center">Tool for generate android project base on MVVM</h3>
