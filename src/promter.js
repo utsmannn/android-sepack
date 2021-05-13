@@ -5,10 +5,12 @@ import { RepoConfig, Template } from "./repo-data.js";
 import clui from "clui";
 import chalk from "chalk";
 import shelljs from "shelljs";
+import { base_url } from "./constant.js";
 
 var repoConfig = new RepoConfig();
 var dependenciesList = [];
 var selectedTemplate = new Template();
+var os = process.platform;
 
 export function startPromter(sepackConfig) {
   inquirer
@@ -66,17 +68,22 @@ function setupPackageName(sepackConfig) {
 function setupTemplate(sepackConfig) {
   var templates = sepackConfig.template;
   var templatesName = templates.map((item) => {
-    return item.name;
+    if (item.url == "separator") {
+      return new inquirer.Separator(item.name);
+    } else {
+      return item.name;
+    }
   });
 
   inquirer
     .prompt([
       {
         name: "repo_template",
-        type: "list",
+        type: "rawlist",
         message: "Select template",
         choices: templatesName,
         default: templatesName[0],
+        loop: false,
       },
     ])
     .then((answer) => {
@@ -142,7 +149,7 @@ function depsApiSearch(search) {
   spinnerBar.start();
 
   axios
-    .get("https://sepacket.herokuapp.com/api/dependencies?search=" + search)
+    .get(base_url + "/dependencies?search=" + search)
     .then((response) => {
       spinnerBar.stop();
       var data = response.data;
@@ -269,26 +276,61 @@ function allowed(string, dot) {
 }
 
 function askOpenStudio() {
+  var listOpen = ["Android Studio", "VSCode", "Nothing else"]
   inquirer
     .prompt([
       {
         name: "open",
-        type: "confirm",
-        message: "Open Android Studio?",
+        type: "rawlist",
+        message: "Open project?",
+        choices: listOpen,
+        default: listOpen[0],
       },
     ])
     .then((answer) => {
       var confirm = answer.open;
-      if (confirm) {
-        openStudio();
+      switch (confirm) {
+        case "Android Studio":
+          openStudio()
+          break;
+        case "VSCode":
+          openVsCode();
+          break;
+        default:
+          openFolder();
+          break;
       }
     });
 }
 
 function openStudio() {
-  var os = process.platform;
-  var macCommand =
-    "open -a /Applications/Android\\ Studio.app .";
+  var macCommand = "open -a /Applications/Android\\ Studio.app . ";
+
+  switch (os) {
+    case "darwin":
+      shelljs.exec(macCommand);
+      break;
+    default:
+      console.log("Your os not able to open project");
+      break;
+  }
+}
+
+function openFolder() {
+  var macCommand = "open .";
+
+  switch (os) {
+    case "darwin":
+      shelljs.exec(macCommand);
+      break;
+    default:
+      console.log("Your os not able to open project");
+      break;
+  }
+}
+
+function openVsCode() {
+  var macCommand = "code .";
 
   switch (os) {
     case "darwin":

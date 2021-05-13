@@ -7,6 +7,7 @@ import { startPromter } from "./promter.js";
 import axios from "axios";
 import { SepackConfig } from "./repo-data.js";
 import clui from "clui";
+import { base_url } from "./constant.js";
 
 shelljs.exec("clear");
 console.log(
@@ -32,10 +33,12 @@ console.log(
   )
 );
 
-var version = "0.2.4"
+var version = "v0.2.8";
 
 console.log(chalk.green("-------------------------------"));
-console.log(chalk.green(`v${version}`) + " | " + chalk.blue("by github.com/utsmannn"));
+console.log(
+  chalk.green(version) + " | " + "by github.com/" + chalk.redBright("utsmannn")
+);
 console.log(chalk.green("-------------------------------"));
 
 if (!shelljs.which("git")) {
@@ -48,7 +51,7 @@ spinnerBar.message(" ping to server...");
 spinnerBar.start();
 
 axios
-  .get("https://sepacket.herokuapp.com/api/version")
+  .get(base_url + "/version")
   .then((response) => {
     spinnerBar.stop();
     console.log(chalk.green("server connected!"));
