@@ -32,3 +32,13 @@ export function welcomeMessage() {
     )
     console.log(chalk.green("-------------------------------"))
 }
+
+export function errorLine(error: string) {
+    console.log(chalk.red(`Error: ${error}`))
+}
+
+export function outLog(param: string, value: string) {
+    console.log(
+        chalk.blueBright(param) + chalk.greenBright(value)
+    )
+}
