@@ -1,8 +1,8 @@
-import { PackageSetup } from './model';
-import shelljs from "shelljs";
-import fs from "fs";
+import { PackageSetup } from './model'
+import shelljs from "shelljs"
+import fs from "fs"
 import ora from "ora"
-import { outLog } from './utils';
+import { folderNameOf, outLog } from './utils'
 
 export class Cloner {
     private setup: PackageSetup
@@ -15,11 +15,7 @@ export class Cloner {
         this.setup = setup
         this.spinnerBar = ora()
         this.spinnerBar.color = "white"
-        this.folder = this.setup.projectName
-            .trim()
-            .split(" ")
-            .join("-")
-            .toLowerCase();
+        this.folder = folderNameOf(this.setup.projectName)
     }
 
     async startClone(): Promise<boolean> {
@@ -30,7 +26,7 @@ export class Cloner {
         return new Promise((resolve) => {
             const command = `git clone -b ${template.branch} ${template.url} ${this.folder}`
 
-            shelljs.exec(command, { silent: true, async: true }, async (code, stdout, stderr) => {
+            shelljs.exec(command, { silent: true, async: true }, async (_code, _stdout, stderr) => {
                 const isError = stderr.includes("fatal")
                 this.spinnerBar.stop()
                 
@@ -46,12 +42,12 @@ export class Cloner {
     }
 
     private async replacing(): Promise<boolean> {
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve, _reject) => {
             shelljs.cd(this.folder)
 
-            const prefixMain = "app/src/main/java/";
-            const prefixAndroidTest = "app/src/androidTest/java/";
-            const prefixUnitTest = "app/src/test/java/";
+            const prefixMain = "app/src/main/java/"
+            const prefixAndroidTest = "app/src/androidTest/java/"
+            const prefixUnitTest = "app/src/test/java/"
 
             const prefixList = [prefixMain, prefixAndroidTest, prefixUnitTest]
             prefixList.forEach(item => {
@@ -116,7 +112,7 @@ export class Cloner {
         if (destinationPoint.length != 0) {
             files.forEach((file) => {
                 shelljs.sed("-i", currentPoint, destinationString, file)
-            });
+            })
         }
     }
 
@@ -124,11 +120,11 @@ export class Cloner {
         const currentPoint = `sepack-name-project`
 
         const files = shelljs.find(".").filter((file) => {
-            return file.match(/\/strings.xml$/);
+            return file.match(/\/strings.xml$/)
         })
 
         files.forEach((file) => {
-            shelljs.sed("-i", currentPoint, this.setup.projectName, file);
+            shelljs.sed("-i", currentPoint, this.setup.projectName, file)
         })
 
         shelljs.sed("-i", currentPoint, this.setup.projectName, "settings.gradle")

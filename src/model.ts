@@ -1,14 +1,3 @@
-export class RepoConfig {
-    public repoUrl: string
-    public projectName: string
-    public packageName: string
-    constructor(repoUrl: string, projectName: string, packageName: string) {
-        this.repoUrl = repoUrl
-        this.projectName = projectName
-        this.packageName = packageName
-    }
-}
-
 export class SepackConfig {
     public templates: [Template]
     constructor(templates: [Template]) {
@@ -61,5 +50,5 @@ export class PackageSetup {
         this.projectName = projectName
         this.packageName = packageName
         this.template = template
-     }
+    }
 }

@@ -1,4 +1,4 @@
-import { appVersion } from './constant';
+import { appVersion } from './constant'
 import chalk from "chalk"
 import figlet from "figlet"
 
@@ -41,4 +41,11 @@ export function outLog(param: string, value: string) {
     console.log(
         chalk.blueBright(param) + chalk.greenBright(value)
     )
+}
+
+export function folderNameOf(projectName: string): string {
+    return projectName.trim()
+        .split(" ")
+        .join("-")
+        .toLowerCase()
 }

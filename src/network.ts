@@ -1,6 +1,6 @@
-import { Dependencies, VersionApi } from './model';
+import { Dependencies, VersionApi } from './model'
 import axios from "axios"
-import { base_url } from './constant';
+import { base_url } from './constant'
 
 export async function getApiVersion(): Promise<VersionApi> {
     const data = await axios.get<VersionApi>(base_url + "/version")
