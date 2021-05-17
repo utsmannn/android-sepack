@@ -1,3 +1,4 @@
+import { Command } from './command';
 import { Prompter } from './prompter'
 import shelljs from "shelljs"
 import chalk from "chalk"
@@ -7,11 +8,104 @@ import ora from "ora"
 import { getApiVersion } from './network'
 import { appVersion } from './constant'
 import boxen from 'boxen'
+import yargs from 'yargs'
 
 export class Main {
     constructor() { }
 
-    async start() {
+    startArg() {
+        const command = new Command()
+        yargs.command(["create"], "Create project builder", async () => {
+            await this.startBuilder()
+        }).command(["build"], "Build android project", {
+            sdk: {
+                describe: 'Path android sdk',
+                type: 'string',
+                alias: 's'
+            },
+        }, async (arg) => {
+            await command.buildProject(arg.sdk)
+        }).command(["run"], "Run application", {
+            resume: {
+                describe: 'Resume, run with skip build and install',
+                type: 'boolean',
+                alias: 'r'
+            },
+            log: {
+                describe: 'Show log',
+                type: 'boolean',
+                alias: 'l'
+            },
+            tag: {
+                describe: 'Filter tag',
+                type: 'string',
+                default: null,
+                alias: 't'
+            },
+            verbose: {
+                describe: 'Verbose level',
+                type: 'boolean',
+                alias: 'v'
+            },
+            debug: {
+                describe: 'Debug level',
+                type: 'boolean',
+                alias: 'd'
+            },
+            info: {
+                describe: 'Info level',
+                type: 'boolean',
+                alias: 'i'
+            },
+            warning: {
+                describe: 'Warning level',
+                type: 'boolean',
+                alias: 'w'
+            },
+            error: {
+                describe: 'Error level',
+                type: 'boolean',
+                alias: 'e'
+            },
+        }, async (arg) => {
+            console.log(chalk.green('Run app done..'))
+            const isLogEnable = arg.log
+            const isResume = arg.resume
+
+            const tag = arg.tag ?? "*"
+            const isTagEnable = arg.tag != "*"
+            const isFilterVerbose = arg.verbose
+            const isFilterDebug = arg.debug
+            const isFilterInfo = arg.info
+            const isFilterWarning = arg.warning
+            const isFilterError = arg.error
+
+            var level: string
+            if (isFilterDebug) {
+                level = "D"
+            } else if (isFilterInfo) {
+                level = "I"
+            } else if (isFilterWarning) {
+                level = "W"
+            } else if (isFilterError) {
+                level = "E"
+            } else if (isFilterVerbose) {
+                level = "V"
+            } else {
+                level = "V"
+            }
+
+            await command.runApp(isResume)
+            console.log(tag)
+            if (isTagEnable || isLogEnable || isFilterVerbose || isFilterDebug || isFilterInfo || isFilterWarning || isFilterError) {
+                setTimeout(() => {
+                    command.log(tag, level)
+                }, 2000);
+            }
+        }).argv
+    }
+
+    private async startBuilder() {
         shelljs.exec("clear")
         welcomeMessage()
 

@@ -3,6 +3,7 @@ import shelljs from "shelljs"
 import fs from "fs"
 import ora from "ora"
 import { folderNameOf, outLog } from './utils'
+import { denormalizeWinPath } from 'tslint/lib/utils'
 
 export class Cloner {
     private setup: PackageSetup
@@ -41,6 +42,7 @@ export class Cloner {
         })
     }
 
+
     private async replacing(): Promise<boolean> {
         return new Promise((resolve, _reject) => {
             shelljs.cd(this.folder)
@@ -65,8 +67,29 @@ export class Cloner {
 
             this.addDependencies()
             this.naming()
+            this.addConfigJson()
+
             resolve(true)
         })
+    }
+
+    private addConfigJson() {
+        const json = `
+{
+    "project_name": "${this.setup.projectName}",
+    "package_name": "${this.setup.packageName}",
+    "sepack_template": {
+        "name": "${this.setup.template.name}",
+        "branch": "${this.setup.template.branch}",
+        "url": "${this.setup.template.url}"
+    }
+}
+        `
+
+        const file = "sepack_config.json"
+        shelljs.touch(file)
+        shelljs.sed("-i", "", json, file)
+
     }
 
     private moving(prefixDir: string) {

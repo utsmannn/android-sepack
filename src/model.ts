@@ -52,3 +52,23 @@ export class PackageSetup {
         this.template = template
     }
 }
+
+/* 
+
+V: Verbose (lowest priority)
+D: Debug
+I: Info
+W: Warning
+E: Error
+F: Fatal
+S: Silent (highest priority, on w
+*/
+
+export enum Loger {
+    VERBOSE = "V",
+    DEBUG = "D",
+    INFO = "I",
+    WARNING = "W",
+    ERROR = "E",
+    FATAL = "F"
+}
