@@ -3,7 +3,7 @@ import { Prompter } from './prompter'
 import shelljs from "shelljs"
 import chalk from "chalk"
 import { SepackConfig, VersionApi } from "./model"
-import { errorLine, welcomeMessage } from "./utils"
+import { clear, errorLine, welcomeMessage } from "./utils"
 import ora from "ora"
 import { getApiVersion } from './network'
 import { appVersion } from './constant'
@@ -106,7 +106,7 @@ export class Main {
     }
 
     private async startBuilder() {
-        shelljs.exec("clear")
+        clear()
         welcomeMessage()
 
         if (!shelljs.which("git")) {

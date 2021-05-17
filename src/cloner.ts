@@ -2,8 +2,8 @@ import { PackageSetup } from './model'
 import shelljs from "shelljs"
 import fs from "fs"
 import ora from "ora"
-import { folderNameOf, outLog } from './utils'
-import { denormalizeWinPath } from 'tslint/lib/utils'
+import { folderNameOf, outLog, slash } from './utils'
+import chalk from 'chalk'
 
 export class Cloner {
     private setup: PackageSetup
@@ -33,9 +33,9 @@ export class Cloner {
                 
                 if (!isError) {
                     const replace = await this.replacing()
-                    return resolve(replace)
+                    resolve(replace)
                 } else {
-                    return resolve(false)
+                    resolve(false)
                 }
 
             })
@@ -45,11 +45,12 @@ export class Cloner {
 
     private async replacing(): Promise<boolean> {
         return new Promise((resolve, _reject) => {
+            console.log(chalk.green("Generating..."))
             shelljs.cd(this.folder)
 
-            const prefixMain = "app/src/main/java/"
-            const prefixAndroidTest = "app/src/androidTest/java/"
-            const prefixUnitTest = "app/src/test/java/"
+            const prefixMain = slash("app/src/main/java/")
+            const prefixAndroidTest = slash("app/src/androidTest/java/")
+            const prefixUnitTest = slash("app/src/test/java/")
 
             const prefixList = [prefixMain, prefixAndroidTest, prefixUnitTest]
             prefixList.forEach(item => {
@@ -61,8 +62,8 @@ export class Cloner {
             })
 
             files.forEach(file => {
-                outLog(`Generated file: `, file)
-                shelljs.sed("-i", this.currentPackageName, this.setup.packageName, file)
+                outLog(`Generated file: `, slash(file))
+                shelljs.sed("-i", this.currentPackageName, this.setup.packageName, slash(file))
             })
 
             this.addDependencies()
@@ -99,21 +100,21 @@ export class Cloner {
         const temp = prefixDir + this.tempPackageName.split(".").join("/")
         const destinationDir = prefixDir + destinationPackage.split(".").join("/")
 
-        const isExist = fs.existsSync(currentDir)
+        const isExist = fs.existsSync(slash(currentDir))
         const isContainsCom = !destinationPackage.includes("com")
 
         if (isExist) {
-            shelljs.mkdir("-p", destinationDir)
-            shelljs.mv("-f", currentDir + "/*", destinationDir)
-            shelljs.rm("-rf", temp)
+            shelljs.mkdir("-p", slash(destinationDir))
+            shelljs.mv("-f", slash(currentDir) + "/*", slash(destinationDir))
+            shelljs.rm("-rf", slash(temp))
             if (isContainsCom) {
-                shelljs.rm("-rf", prefixDir + "/com")
+                shelljs.rm("-rf", slash(prefixDir) + "/com")
             }
         }
 
         const unusedFiles = [".DS_Store", ".idea", ".git", ".gitignore", ".gradle"]
         unusedFiles.forEach(item => {
-            shelljs.rm("-rf", item)
+            shelljs.rm("-rf", slash(item))
         })
     }
 
@@ -124,7 +125,7 @@ export class Cloner {
         })
 
         destinationPoint.forEach(item => {
-            outLog(`Adding dependencies: `, item)
+            outLog(`Adding dependencies: `, slash(item))
         })
 
         const destinationString = `     ${destinationPoint}`.split(",").join("\n     ")
@@ -134,7 +135,7 @@ export class Cloner {
 
         if (destinationPoint.length != 0) {
             files.forEach((file) => {
-                shelljs.sed("-i", currentPoint, destinationString, file)
+                shelljs.sed("-i", currentPoint, destinationString, slash(file))
             })
         }
     }
@@ -147,7 +148,7 @@ export class Cloner {
         })
 
         files.forEach((file) => {
-            shelljs.sed("-i", currentPoint, this.setup.projectName, file)
+            shelljs.sed("-i", currentPoint, this.setup.projectName, slash(file))
         })
 
         shelljs.sed("-i", currentPoint, this.setup.projectName, "settings.gradle")

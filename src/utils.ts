@@ -1,6 +1,7 @@
 import { appVersion } from './constant'
 import chalk from "chalk"
 import figlet from "figlet"
+import shelljs from 'shelljs';
 
 export function welcomeMessage() {
     console.log(
@@ -48,4 +49,27 @@ export function folderNameOf(projectName: string): string {
         .split(" ")
         .join("-")
         .toLowerCase()
+}
+
+export function slash(path: string) {
+    const isExtendedLengthPath = /^\\\\\?\\/.test(path)
+    const hasNonAscii = /[^\u0000-\u0080]+/.test(path) // eslint-disable-line no-control-regex
+
+    if (isExtendedLengthPath || hasNonAscii) {
+        return path;
+    }
+
+    return path.replace(/\\/g, '/')
+}
+
+export function clear() {
+    const os = process.platform
+    switch (this.os) {
+        case "win32":
+            shelljs.exec("cls")
+            break
+        default:
+            shelljs.exec("clear")
+            break
+    }
 }

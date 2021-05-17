@@ -1,6 +1,6 @@
 {
   "name": "sepack",
-  "version": "0.3.2",
+  "version": "0.3.6",
   "description": "",
   "main": "dist/app.js",
   "scripts": {
