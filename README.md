@@ -12,11 +12,11 @@
   <a href="https://github.com/utsmannn/android-sepack/pulls"><img alt="Pull request" src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat"></a>
   <a href="https://twitter.com/utsmannn"><img alt="Twitter" src="https://img.shields.io/twitter/follow/utsmannn"></a>
   <a href="https://github.com/utsmannn"><img alt="Github" src="https://img.shields.io/github/followers/utsmannn?label=follow&style=social"></a>
-  <h3 align="center">Tool for generate android project base on MVVM</h3>
+  <h3 align="center">Tool for generate android project base on MVVM, debug and install project without Android Studio</h3>
 </p>
 
 <p align="center">
-  <img src="https://i.ibb.co/pR1ZfcY/ezgif-com-gif-maker.gif"/>
+  <img src="img.gif"/>
 </p>
 
 ---
@@ -31,20 +31,21 @@ npm install -g sepack
 
 ### Usage
 
-For start create project
-
+For start create project <br>
+https://www.youtube.com/watch?v=MZR4csYujsY
 ```
 cd your-android-folder-project
 sepack create
 ```
 
-For build project after creating
-
+For build project after creating <br>
+https://www.youtube.com/watch?v=JlhsQRDc9o0
 ```
 sepack build
 ```
 
-For run project on device/emulator
+For run project on device/emulator <br>
+https://www.youtube.com/watch?v=XKeanRz7KOA
 
 ```
 sepack run
@@ -55,6 +56,39 @@ sepack run
 - See `sepack --help` for more options
 - See `sepack build --help` for more options build
 - See `sepack run --help` for more options run
+
+#### Build
+For build android project, type `sepack build`. This command will be generate `local.properties`, setup android sdk and run build task like android studio
+
+#### Run
+Run command same as run task in android studio. Type `sepack run`
+
+#### Table
+
+|Command|Options|Description|
+|---|---|---|
+|`sepack create`|             | Show create project wizard |
+|`sepack build`|              | Build android project |
+|              | `--sdk` or `s` | With path android sdk |
+|              | `--checksdk` or `c` | With path android sdk |
+|`sepack run`|              | Install and run application |
+|            | `--resume` or `r` | Resume, run with skip build and install |
+|            | `--log` or `l` | Show log |
+|            | `--tag` or `t` | Filter by tag |
+|            | `--verbose` or `v` | Verbose level |
+|            | `--debug` or `d` | Debug level |
+|            | `--info` or `i` | Info level |
+|            | `--warning` or `w` | Warning level |
+|            | `--error` or `e` | Error level |
+
+
+### Contribute
+For contribute this project, please fork and pull request. <br>
+If you want to contribute for template, go to base template repository, fork and pull request with new branch with name of template. <br>
+Base repository: <br>
+https://github.com/utsmannn/sepack-base-repository
+
+![](branch-template.png)
 
 ### Api
 

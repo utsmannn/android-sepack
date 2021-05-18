@@ -66,9 +66,9 @@ export function slash(path: string) {
 export async function sdkPath(): Promise<string> {
     return new Promise(resolve => {
         shelljs.exec('whoami', { silent: true, async: true }, (code, stdout, stderr) => {
-            const winUser = stdout.split("\\").reverse()[0].trim()
-            const unixSdk = `/Users/${stdout}/Library/Android/sdk`
-            const winSdk = `C:/Users/${winUser}/AppData/Local/Android/Sdk`
+            const user = stdout.split("\\").reverse()[0].trim()
+            const unixSdk = `/Users/${user}/Library/Android/sdk`
+            const winSdk = `C:/Users/${user}/AppData/Local/Android/Sdk`
     
             if (osSys.type() == 'Windows_NT') {
                 resolve(slash(winSdk))
