@@ -2,18 +2,19 @@ import { Command } from './command';
 import { Prompter } from './prompter'
 import shelljs from "shelljs"
 import chalk from "chalk"
-import { SepackConfig, VersionApi } from "./model"
-import { clear, errorLine, welcomeMessage } from "./utils"
+import { SepackConfig } from "./model"
+import { errorLine, outLog, sdkPath, welcomeMessage } from "./utils"
 import ora from "ora"
 import { getApiVersion } from './network'
 import { appVersion } from './constant'
 import boxen from 'boxen'
 import yargs from 'yargs'
+import clear from 'cli-clear'
 
 export class Main {
     constructor() { }
 
-    startArg() {
+    async startArg() {
         const command = new Command()
         yargs.command(["create"], "Create project builder", async () => {
             await this.startBuilder()
@@ -21,10 +22,23 @@ export class Main {
             sdk: {
                 describe: 'Path android sdk',
                 type: 'string',
-                alias: 's'
+                alias: 's',
+                default: await sdkPath()
             },
+            checksdk: {
+                describe: 'Check path of sdk',
+                type: 'boolean',
+                alias: 'c',
+                default: false
+            }
         }, async (arg) => {
-            await command.buildProject(arg.sdk)
+            if (arg.checksdk) {
+                const sdk = await sdkPath()
+                console.log(`Sdk path: ${sdk}`)
+            } else {
+                await command.buildProject(arg.sdk)
+            }
+
         }).command(["run"], "Run application", {
             resume: {
                 describe: 'Resume, run with skip build and install',
@@ -68,7 +82,6 @@ export class Main {
                 alias: 'e'
             },
         }, async (arg) => {
-            console.log(chalk.green('Run app done..'))
             const isLogEnable = arg.log
             const isResume = arg.resume
 
@@ -96,7 +109,6 @@ export class Main {
             }
 
             await command.runApp(isResume)
-            console.log(tag)
             if (isTagEnable || isLogEnable || isFilterVerbose || isFilterDebug || isFilterInfo || isFilterWarning || isFilterError) {
                 setTimeout(() => {
                     command.log(tag, level)
@@ -126,7 +138,7 @@ export class Main {
                 setTimeout(() => {
                     spinnerBar.stop()
                     if (!isUpdate) {
-                        console.log(chalk.green("Server connected!"))
+                        outLog('Task', "Server connected!")
                         const templates = versionApi.templates
                         const sepackConfig = new SepackConfig(templates)
                         const prompter = new Prompter(sepackConfig)
@@ -176,4 +188,3 @@ class Updater {
         console.log(box)
     }
 }
-

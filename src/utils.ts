@@ -1,12 +1,13 @@
 import { appVersion } from './constant'
 import chalk from "chalk"
 import figlet from "figlet"
-import shelljs from 'shelljs';
+import shelljs from "shelljs"
+import osSys from 'os'
 
 export function welcomeMessage() {
     console.log(
         chalk.white(
-            figlet.textSync("sepack", {
+            "  " + figlet.textSync("sepack", {
                 font: "Colossal",
                 horizontalLayout: "default",
                 verticalLayout: "default",
@@ -17,7 +18,7 @@ export function welcomeMessage() {
     )
     console.log(
         chalk.green(
-            figlet.textSync("android", {
+            "  " + figlet.textSync("android", {
                 font: "Colossal",
                 horizontalLayout: "default",
                 verticalLayout: "default",
@@ -27,11 +28,11 @@ export function welcomeMessage() {
         )
     )
 
-    console.log(chalk.green("-------------------------------"))
+    console.log(chalk.green("  -------------------------------"))
     console.log(
-        chalk.green(appVersion) + " | " + "by github.com/" + chalk.redBright("utsmannn")
+        "  " + chalk.green(appVersion) + " | " + "by github.com/" + chalk.redBright("utsmannn")
     )
-    console.log(chalk.green("-------------------------------"))
+    console.log(chalk.green("  -------------------------------"))
 }
 
 export function errorLine(error: string) {
@@ -40,7 +41,7 @@ export function errorLine(error: string) {
 
 export function outLog(param: string, value: string) {
     console.log(
-        chalk.blueBright(param) + chalk.greenBright(value)
+        chalk.blueBright(`> ${param}: `) + chalk.whiteBright(value)
     )
 }
 
@@ -62,14 +63,18 @@ export function slash(path: string) {
     return path.replace(/\\/g, '/')
 }
 
-export function clear() {
-    const os = process.platform
-    switch (this.os) {
-        case "win32":
-            shelljs.exec("cls")
-            break
-        default:
-            shelljs.exec("clear")
-            break
-    }
+export async function sdkPath(): Promise<string> {
+    return new Promise(resolve => {
+        shelljs.exec('whoami', { silent: true, async: true }, (code, stdout, stderr) => {
+            const winUser = stdout.split("\\").reverse()[0].trim()
+            const unixSdk = `/Users/${stdout}/Library/Android/sdk`
+            const winSdk = `C:/Users/${winUser}/AppData/Local/Android/Sdk`
+    
+            if (osSys.type() == 'Windows_NT') {
+                resolve(slash(winSdk))
+            } else {
+                resolve(unixSdk)
+            }
+        })
+    })
 }

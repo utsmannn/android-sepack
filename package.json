@@ -1,6 +1,6 @@
 {
   "name": "sepack",
-  "version": "0.3.6",
+  "version": "0.4.36",
   "description": "",
   "main": "dist/app.js",
   "scripts": {
@@ -8,7 +8,10 @@
     "restart": "clear && npm run clean && npm run build",
     "build": "npm run clean && tsc -p . && npm link",
     "clean": "npm uninstall -g sepack && npx rimraf dist",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "patch": "npm run build && node updater/patch.js && npm publish",
+    "minor": "npm run build && node updater/minor.js && npm publish",
+    "mayor": "npm run build && node updater/mayor.js && npm publish"
   },
   "repository": {
     "type": "git",
@@ -36,6 +39,7 @@
     "axios": "^0.21.1",
     "boxen": "^5.0.1",
     "chalk": "^2.4.2",
+    "cli-clear": "^1.0.4",
     "clui": "^0.3.6",
     "figlet": "^1.5.0",
     "inquirer": "^8.0.0",

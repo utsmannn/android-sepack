@@ -4,7 +4,7 @@ import chalk from "chalk"
 import { searchDependencies } from './network'
 import ora from "ora"
 import { Cloner } from './cloner'
-import { errorLine, folderNameOf } from './utils'
+import { errorLine, folderNameOf, outLog } from './utils'
 import inquirer from 'inquirer'
 
 export class Prompter {
@@ -190,12 +190,12 @@ export class Prompter {
     `
     }
 
-    console.log(chalk.greenBright(confirmText))
+    outLog('Confirm', confirmText)
     const form = await inquirer.prompt({
       type: 'confirm',
       name: 'confirm',
       message: 'This project ok?'
-      
+
     })
     const valid = form.confirm as boolean
     return valid
@@ -268,10 +268,14 @@ class Opener {
 
   openFolder() {
     const macCommand = "open ."
+    const winCommand = "start ."
 
     switch (this.os) {
       case "darwin":
         shelljs.exec(macCommand)
+        break
+      case "win32":
+        shelljs.exec(winCommand)
         break
       default:
         console.log("Your os not able to open project")
@@ -280,11 +284,14 @@ class Opener {
   }
 
   openVsCode() {
-    const macCommand = "code ."
+    const codeCommand = "code ."
 
     switch (this.os) {
       case "darwin":
-        shelljs.exec(macCommand)
+        shelljs.exec(codeCommand)
+        break
+      case "win32":
+        shelljs.exec(codeCommand)
         break
       default:
         console.log("Your os not able to open project")

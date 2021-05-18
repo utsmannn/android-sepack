@@ -3,7 +3,6 @@ import shelljs from "shelljs"
 import fs from "fs"
 import ora from "ora"
 import { folderNameOf, outLog, slash } from './utils'
-import chalk from 'chalk'
 
 export class Cloner {
     private setup: PackageSetup
@@ -45,7 +44,6 @@ export class Cloner {
 
     private async replacing(): Promise<boolean> {
         return new Promise((resolve, _reject) => {
-            console.log(chalk.green("Generating..."))
             shelljs.cd(this.folder)
 
             const prefixMain = slash("app/src/main/java/")
@@ -142,13 +140,21 @@ export class Cloner {
 
     private naming() {
         const currentPoint = `sepack-name-project`
+        const externalGradle = `apply from: "$rootDir/dependencies/external.gradle"`
+        const externalGradleFixer = `apply from: "$${slash("rootDir/dependencies/external.gradle")}`
 
         const files = shelljs.find(".").filter((file) => {
             return file.match(/\/strings.xml$/)
         })
 
-        files.forEach((file) => {
+        const appGradle = shelljs.find(slash('app/build.gradle'))
+
+        files.forEach(file => {
             shelljs.sed("-i", currentPoint, this.setup.projectName, slash(file))
+        })
+
+        appGradle.forEach(file => {
+            shelljs.sed("-i", externalGradle, externalGradleFixer, slash(file))
         })
 
         shelljs.sed("-i", currentPoint, this.setup.projectName, "settings.gradle")
