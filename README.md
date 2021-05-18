@@ -21,6 +21,8 @@
 
 ---
 
+This project tested on Macos and Windows.
+
 ### Setup
 
 ```
@@ -33,8 +35,26 @@ For start create project
 
 ```
 cd your-android-folder-project
-android-sepack
+sepack create
 ```
+
+For build project after creating
+
+```
+sepack build
+```
+
+For run project on device/emulator
+
+```
+sepack run
+```
+
+### Options and arguments
+
+- See `sepack --help` for more options
+- See `sepack build --help` for more options build
+- See `sepack run --help` for more options run
 
 ### Api
 
