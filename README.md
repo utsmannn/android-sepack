@@ -70,7 +70,7 @@ Run command same as run task in android studio. Type `sepack run`
 |`sepack create`|             | Show create project wizard |
 |`sepack build`|              | Build android project |
 |              | `--sdk` or `s` | With path android sdk |
-|              | `--checksdk` or `c` | With path android sdk |
+|              | `--checksdk` or `c` | Check current path android sdk |
 |`sepack run`|              | Install and run application |
 |            | `--resume` or `r` | Resume, run with skip build and install |
 |            | `--log` or `l` | Show log |
