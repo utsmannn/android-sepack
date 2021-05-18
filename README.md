@@ -88,7 +88,7 @@ If you want to contribute for template, go to base template repository, fork and
 Base repository: <br>
 https://github.com/utsmannn/sepack-base-repository
 
-![](branch-template.png)
+![](branch_template.png)
 
 ### Api
 
