@@ -79,11 +79,11 @@ Turn on your android project with sepack android project, say goodbye to lagging
 | `sepack create` |                      | Project wizard                          |         |
 | `sepack build`  |                      | Build android project                   |         |
 |                 | `--sdk` or `-s`      | With path android sdk                   |         |
-|                 | `--log` or `-l`      | Show log                                | false   |
+|                 | `--log` or `-l`      | Show log build                          | false   |
 |                 | `--checksdk` or `-c` | Check current path android sdk          |         |
 | `sepack run`    |                      | Install and run application             |         |
 |                 | `--resume` or `-r`   | Resume, run with skip build and install |         |
-|                 | `--log` or `-l`      | Show log                                | false   |
+|                 | `--log` or `-l`      | Show log build                          | false   |
 |                 | `--tag` or `-t`      | Filter by tag                           |         |
 |                 | `--verbose` or `-v`  | Verbose level                           |         |
 |                 | `--debug` or `-d`    | Debug level                             |         |
