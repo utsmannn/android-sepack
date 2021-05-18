@@ -1,7 +1,7 @@
 {
   "name": "sepack",
-  "version": "0.4.37",
-  "description": "",
+  "version": "0.4.38",
+  "description": "Simple cli tool for android project. Generate android project base on template kotlin mvvm, debug and install project without Android Studio.",
   "main": "dist/app.js",
   "scripts": {
     "start": "android-sepack",
@@ -21,9 +21,15 @@
     "android-sepack": "dist/app.js",
     "sepack": "dist/app.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "android",
+    "template",
+    "boilerplate",
+    "android-cli",
+    "android-tools"
+  ],
+  "author": "Muhammad Utsman",
+  "license": "Apache-v2",
   "bugs": {
     "url": "https://github.com/utsmannn/android-sepack/issues"
   },

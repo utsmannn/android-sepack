@@ -8,6 +8,7 @@
 
 <p align="center">
   <a href="https://www.npmjs.com/package/sepack"><img alt="Version" src="https://img.shields.io/npm/v/sepack"></a>
+  <a href="https://www.npmjs.com/package/sepack"><img alt="Version" src="https://img.shields.io/npm/dt/sepack?color=orange"></a>
   <a href="LICENSE"><img alt="License" src="https://img.shields.io/badge/License-Apache%202.0-blue.svg"></a>
   <a href="https://github.com/utsmannn/android-sepack/pulls"><img alt="Pull request" src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat"></a>
   <a href="https://twitter.com/utsmannn"><img alt="Twitter" src="https://img.shields.io/twitter/follow/utsmannn"></a>
@@ -33,6 +34,7 @@ npm install -g sepack
 
 For start create project <br>
 https://www.youtube.com/watch?v=MZR4csYujsY
+
 ```
 cd your-android-folder-project
 sepack create
@@ -40,6 +42,7 @@ sepack create
 
 For build project after creating <br>
 https://www.youtube.com/watch?v=JlhsQRDc9o0
+
 ```
 sepack build
 ```
@@ -58,31 +61,33 @@ sepack run
 - See `sepack run --help` for more options run
 
 #### Build
+
 For build android project, type `sepack build`. This command will be generate `local.properties`, setup android sdk and run build task like android studio
 
 #### Run
+
 Run command same as run task in android studio. Type `sepack run`
 
 #### Table
 
-|Command|Options|Description|
-|---|---|---|
-|`sepack create`|             | Show create project wizard |
-|`sepack build`|              | Build android project |
-|              | `--sdk` or `s` | With path android sdk |
-|              | `--checksdk` or `c` | Check current path android sdk |
-|`sepack run`|              | Install and run application |
-|            | `--resume` or `r` | Resume, run with skip build and install |
-|            | `--log` or `l` | Show log |
-|            | `--tag` or `t` | Filter by tag |
-|            | `--verbose` or `v` | Verbose level |
-|            | `--debug` or `d` | Debug level |
-|            | `--info` or `i` | Info level |
-|            | `--warning` or `w` | Warning level |
-|            | `--error` or `e` | Error level |
-
+| Command         | Options             | Description                             |
+| --------------- | ------------------- | --------------------------------------- |
+| `sepack create` |                     | Show create project wizard              |
+| `sepack build`  |                     | Build android project                   |
+|                 | `--sdk` or `s`      | With path android sdk                   |
+|                 | `--checksdk` or `c` | Check current path android sdk          |
+| `sepack run`    |                     | Install and run application             |
+|                 | `--resume` or `r`   | Resume, run with skip build and install |
+|                 | `--log` or `l`      | Show log                                |
+|                 | `--tag` or `t`      | Filter by tag                           |
+|                 | `--verbose` or `v`  | Verbose level                           |
+|                 | `--debug` or `d`    | Debug level                             |
+|                 | `--info` or `i`     | Info level                              |
+|                 | `--warning` or `w`  | Warning level                           |
+|                 | `--error` or `e`    | Error level                             |
 
 ### Contribute
+
 For contribute this project, please fork and pull request. <br>
 If you want to contribute for template, go to base template repository, fork and pull request with new branch with name of template. <br>
 Base repository: <br>
