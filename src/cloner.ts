@@ -88,7 +88,6 @@ export class Cloner {
         const file = "sepack_config.json"
         shelljs.touch(file)
         shelljs.sed("-i", "", json, file)
-
     }
 
     private moving(prefixDir: string) {

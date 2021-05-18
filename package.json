@@ -1,6 +1,6 @@
 {
   "name": "sepack",
-  "version": "0.4.38",
+  "version": "0.5.0",
   "description": "Simple cli tool for android project. Generate android project base on template kotlin mvvm, debug and install project without Android Studio.",
   "main": "dist/app.js",
   "scripts": {
@@ -8,10 +8,12 @@
     "restart": "clear && npm run clean && npm run build",
     "build": "npm run clean && tsc -p . && npm link",
     "clean": "npm uninstall -g sepack && npx rimraf dist",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "patch": "npm run build && node updater/patch.js && npm publish",
-    "minor": "npm run build && node updater/minor.js && npm publish",
-    "mayor": "npm run build && node updater/mayor.js && npm publish"
+    "patch": "npm run build && npm run patch-update && npm publish",
+    "minor": "npm run build && npm run minor-update && npm publish",
+    "mayor": "npm run build && npm run mayor-update && npm publish",
+    "patch-update": "npm run build && node -e 'require(\"./updater\").patchUpdate()'",
+    "minor-update": "npm run build && node -e 'require(\"./updater\").minorUpdate()'",
+    "mayor-update": "npm run build && node -e 'require(\"./updater\").mayorUpdate()'"
   },
   "repository": {
     "type": "git",

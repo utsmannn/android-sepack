@@ -62,29 +62,35 @@ sepack run
 
 #### Build
 
-For build android project, type `sepack build`. This command will be generate `local.properties`, setup android sdk and run build task like android studio
+For build android project. This command will be generate `local.properties`, setup android sdk and run build task like android studio
 
 #### Run
 
-Run command same as run task in android studio. Type `sepack run`
+Run command same as run task in android studio
+
+#### Init
+
+Turn on your android project with sepack android project, say goodbye to lagging android studio
 
 #### Table
 
-| Command         | Options             | Description                             |
-| --------------- | ------------------- | --------------------------------------- |
-| `sepack create` |                     | Show create project wizard              |
-| `sepack build`  |                     | Build android project                   |
-|                 | `--sdk` or `s`      | With path android sdk                   |
-|                 | `--checksdk` or `c` | Check current path android sdk          |
-| `sepack run`    |                     | Install and run application             |
-|                 | `--resume` or `r`   | Resume, run with skip build and install |
-|                 | `--log` or `l`      | Show log                                |
-|                 | `--tag` or `t`      | Filter by tag                           |
-|                 | `--verbose` or `v`  | Verbose level                           |
-|                 | `--debug` or `d`    | Debug level                             |
-|                 | `--info` or `i`     | Info level                              |
-|                 | `--warning` or `w`  | Warning level                           |
-|                 | `--error` or `e`    | Error level                             |
+| Command         | Options              | Description                             | default |
+| --------------- | -------------------- | --------------------------------------- | ------- |
+| `sepack create` |                      | Project wizard                          |         |
+| `sepack build`  |                      | Build android project                   |         |
+|                 | `--sdk` or `-s`      | With path android sdk                   |         |
+|                 | `--log` or `-l`      | Show log                                | false   |
+|                 | `--checksdk` or `-c` | Check current path android sdk          |         |
+| `sepack run`    |                      | Install and run application             |         |
+|                 | `--resume` or `-r`   | Resume, run with skip build and install |         |
+|                 | `--log` or `-l`      | Show log                                | false   |
+|                 | `--tag` or `-t`      | Filter by tag                           |         |
+|                 | `--verbose` or `-v`  | Verbose level                           |         |
+|                 | `--debug` or `-d`    | Debug level                             |         |
+|                 | `--info` or `-i`     | Info level                              |         |
+|                 | `--warning` or `-w`  | Warning level                           |         |
+|                 | `--error` or `-e`    | Error level                             |         |
+| `sepack init`   |                      | Turn on sepack android project          |         |
 
 ### Contribute
 

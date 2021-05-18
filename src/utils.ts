@@ -36,12 +36,12 @@ export function welcomeMessage() {
 }
 
 export function errorLine(error: string) {
-    console.log(chalk.red(`Error: ${error}`))
+    console.log(chalk.red(`!! Error: ${error}`))
 }
 
 export function outLog(param: string, value: string) {
     console.log(
-        chalk.blueBright(`> ${param}: `) + chalk.whiteBright(value)
+        chalk.blueBright(`> ${param}: `) + chalk.white(value)
     )
 }
 
@@ -54,7 +54,7 @@ export function folderNameOf(projectName: string): string {
 
 export function slash(path: string) {
     const isExtendedLengthPath = /^\\\\\?\\/.test(path)
-    const hasNonAscii = /[^\u0000-\u0080]+/.test(path) // eslint-disable-line no-control-regex
+    const hasNonAscii = /[^\u0000-\u0080]+/.test(path)
 
     if (isExtendedLengthPath || hasNonAscii) {
         return path;

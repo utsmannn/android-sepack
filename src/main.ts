@@ -30,13 +30,20 @@ export class Main {
                 type: 'boolean',
                 alias: 'c',
                 default: false
+            },
+            log: {
+                describe: 'Show log',
+                type: 'boolean',
+                alias: 'l',
+                default: false
             }
         }, async (arg) => {
             if (arg.checksdk) {
                 const sdk = await sdkPath()
                 console.log(`Sdk path: ${sdk}`)
             } else {
-                await command.buildProject(arg.sdk)
+                const isShowLog = arg.log
+                await command.buildProject(arg.sdk, isShowLog)
             }
 
         }).command(["run"], "Run application", {
@@ -48,7 +55,8 @@ export class Main {
             log: {
                 describe: 'Show log',
                 type: 'boolean',
-                alias: 'l'
+                alias: 'l',
+                default: false
             },
             tag: {
                 describe: 'Filter tag',
@@ -82,7 +90,7 @@ export class Main {
                 alias: 'e'
             },
         }, async (arg) => {
-            const isLogEnable = arg.log
+            const isShowLog = arg.log
             const isResume = arg.resume
 
             const tag = arg.tag ?? "*"
@@ -108,12 +116,14 @@ export class Main {
                 level = "V"
             }
 
-            await command.runApp(isResume)
-            if (isTagEnable || isLogEnable || isFilterVerbose || isFilterDebug || isFilterInfo || isFilterWarning || isFilterError) {
+            await command.runApp(isResume, isShowLog)
+            if (isTagEnable || isFilterVerbose || isFilterDebug || isFilterInfo || isFilterWarning || isFilterError) {
                 setTimeout(() => {
                     command.log(tag, level)
                 }, 2000);
             }
+        }).command(["init"], "Turn on sepack android project", async () => {
+            await command.init()
         }).argv
     }
 
